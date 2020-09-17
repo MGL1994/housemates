@@ -1,17 +1,20 @@
-from django.shortcuts import render
-from django.views import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .models import Task
+from .serializers import TaskSerializer
 
-class ListView(View):
+class ListView(APIView):
     
     def get(self, request):
         tasks = Task.objects.all()
-        return render(request, 'index.html', {'tasks': tasks})
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
 
 
-class DetailView(View):
+class DetailView(APIView):
 
     def get(self, request, pk):
         task = Task.objects.get(pk=pk)
-        return render(request, 'show.html', {'task': task})
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
