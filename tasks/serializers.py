@@ -34,7 +34,7 @@ class TagSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
 
     owner = NestedOwnerSerializer()
-    tags = TagSerializer(many=True)
+    tags = TagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Task
@@ -43,5 +43,4 @@ class TaskSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['task'] == data['description']:
             raise serializers.ValidationError({'description': 'More detail required'})
-
         return data

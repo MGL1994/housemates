@@ -19,7 +19,7 @@ class Task(models.Model):
     description = models.CharField(max_length=200)
     due_date = models.DateField()
     owner = models.ForeignKey(Owner, related_name='tasks', on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, related_name='tasks', blank=True)
+    tags = models.ManyToManyField(Tag, related_name='tasks', blank=True, default='')
 
     def __str__(self):
         return f'{self.task} - {self.due_date}'
