@@ -1,5 +1,13 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
+
 from .models import Tag, Task
+
+class OwnerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', )
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -12,10 +20,11 @@ class TagSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
 
     tags = TagSerializer(many=True, read_only=True)
+    owner = OwnerSerializer(read_only=True)
 
     class Meta:
         model = Task
-        fields = ('id', 'task', 'description', 'due_date', 'tags')
+        fields = ('id', 'task', 'description', 'due_date', 'tags', 'owner')
 
     def validate(self, data):
         if data['task'] == data['description']:
