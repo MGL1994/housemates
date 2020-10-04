@@ -20,7 +20,7 @@ class TagSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
 
     tags = TagSerializer(many=True, read_only=True)
-    owner = OwnerSerializer(read_only=True)
+    owner = OwnerSerializer()
 
     class Meta:
         model = Task
